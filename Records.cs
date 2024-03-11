@@ -304,6 +304,23 @@ namespace viewstate_decoder
     }
 
     /// <summary>
+    /// 2.4.3.3 ArraySinglePrimitive
+    /// </summary>
+    class ArraySinglePrimitive : Record
+    {
+        public override byte RecordType => 15;
+        public ArrayInfo ArrayInfo;
+        public PrimitiveTypeEnumeration PrimitiveTypeEnumeration;
+
+        public override void Parse(Stream stream)
+        {
+            base.Parse(stream);
+            ArrayInfo = new ArrayInfo { ObjectId = stream.ReadInt32(), Length = stream.ReadInt32() };
+            PrimitiveTypeEnumeration = (PrimitiveTypeEnumeration)stream.ReadByte();
+        }
+    }
+
+    /// <summary>
     /// 2.3.2.1 ClassWithMembersAndTypes
     /// </summary>
     class ClassWithMembersAndTypes : Record
@@ -615,6 +632,9 @@ namespace viewstate_decoder
 
                         break;
                     }
+                case 15:
+                    record = new ArraySinglePrimitive();
+                    break;
                 case 17:
                     {
                         record = new ArraySingleString();
