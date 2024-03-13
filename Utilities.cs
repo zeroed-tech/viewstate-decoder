@@ -48,6 +48,14 @@ namespace viewstate_decoder
             return BitConverter.ToInt64(buffer, 0);
         }
 
+        public static float ReadSingle(this Stream stream)
+        {
+            var sz = Marshal.SizeOf(typeof(float));
+            var buffer = new byte[sz];
+            stream.Read(buffer, 0, sz);
+            return BitConverter.ToSingle(buffer, 0);
+        }
+
         /// <summary>
         /// 2.1.1.6 LengthPrefixedString
         /// </summary>
@@ -101,7 +109,7 @@ namespace viewstate_decoder
                 case PrimitiveTypeEnumeration.SByte:
                     return stream.ReadByte();
                 case PrimitiveTypeEnumeration.Single:
-                    return stream.ReadInt32();
+                    return stream.ReadSingle();
                 case PrimitiveTypeEnumeration.TimeSpan:
                     return stream.ReadInt64();
                 case PrimitiveTypeEnumeration.DateTime:

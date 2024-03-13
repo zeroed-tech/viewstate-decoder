@@ -51,4 +51,14 @@
         ExceptionInArray = 0x00002000,
         GenericMethod = 0x00008000,
     }
+
+    enum BinaryArrayTypeEnum
+    {
+        Single = 0,
+        Jagged,
+        Rectangular,
+        SingleOffset,
+        JaggedOffset,
+        RectangularOffset,
+    }
 }
